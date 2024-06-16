@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Reservas - Hotel Sol e Mar</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Reservas</h1>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Observações</th>
+                    <th>Email</th>
+                    <th>Adultos</th>
+                    <th>Crianças</th>
+                    <th>Data de Entrada</th>
+                    <th>Data de Saída</th>
+                </tr>
+            </thead>
+            <tbody id="reservationsTableBody">
+                <!-- Os dados da tabela serão inseridos abaixo utilizando o javascript -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('http://localhost:3000/reservas');
+                const reservations = await response.json();
+                const tableBody = document.getElementById('reservationsTableBody');
+
+                reservations.forEach(reservation => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${reservation.nome}</td>
+                        <td>${reservation.observacoes}</td>
+                        <td>${reservation.email}</td>
+                        <td>${reservation.adultos}</td>
+                        <td>${reservation.criancas}</td>
+                        <td>${reservation.dataEntrada}</td>
+                        <td>${reservation.dataSaida}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar reservas:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>
